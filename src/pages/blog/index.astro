@@ -1,0 +1,27 @@
+---
+import BlogLayout from "@layouts/BlogLayout.astro";
+
+import { getCollection } from "astro:content";
+import PostOverview from "@components/PostOverview.astro";
+const posts = await getCollection("blog");
+
+const pageTitle = "Blog | Daniel Esquinazi";
+---
+
+<BlogLayout pageTitle={pageTitle}>
+  <ul class="flex flex-col gap-5">
+    {
+      posts.map(({ data: { id, title, description, date, category } }) => (
+        <li>
+          <PostOverview
+            id={id}
+            title={title}
+            description={description}
+            date={date}
+            category={category}
+          />
+        </li>
+      ))
+    }
+  </ul>
+</BlogLayout>
