@@ -7,16 +7,18 @@ interface Props {
 }
 
 const { pageTitle } = Astro.props;
+
+const { lang } = Astro.params;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
     <meta name="generator" content={Astro.generator} />
-    <title>{pageTitle}</title>
+    <title>{`${pageTitle} | Daniel Esquinazi`}</title>
     <!-- /Adds transitions between page navigations/ -->
     <ClientRouter />
   </head>

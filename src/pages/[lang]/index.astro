@@ -1,0 +1,94 @@
+---
+import { languages } from "@i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { getCollection } from "astro:content";
+
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+import Background from "@components/Background.astro";
+import Logo from "@components/Logo.astro";
+import PostOverview from "@components/PostOverview.astro";
+import LanguageSelector from "@components/LanguageSelector";
+
+import { useTranslations } from "@i18n/utils";
+import { ui } from "@i18n/ui";
+
+const lang = Astro.params.lang as keyof typeof ui;
+const t = useTranslations(lang);
+
+const pageTitle = t("home");
+
+const posts = await getCollection("blog");
+const latestPost = posts
+  .filter((post) => post.data.locale === lang)
+  .toSorted((postA, postB) => (postA.data.date > postB.data.date ? -1 : 1))[0];
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => {
+    return { params: { lang } };
+  });
+}
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <main
+    class="h-full grid grid-rows-[auto_1fr] sm:grid-rows-[100vh] sm:grid-cols-[50%_50%]"
+  >
+  <side
+  transition:name="hero-to-nav"
+  transition:animate="none"
+  class="flex flex-col justify-center items-center text-center text-white py-4 relative"
+  >
+  <Background />
+  <Logo />
+  
+  <div class="bg-black/30 p-3 rounded-lg flex flex-col justify-center items-center  gap-2 mt-4">
+        <h1 class="text-3xl sm:text-4xl font-bold">
+          {t("home.hi")}<br />Daniel Alberto Esquinazi
+        </h1>
+        <p class="text-lg max-w-80 sm:max-90 mx-auto">
+          {t("home.detail")}
+        </p>
+      </div>
+      <div class="flex items-center justify-center gap-5 my-6">
+        <a
+          class="w-26 py-2 px-5 bg-sky-500 hover:bg-sky-600 active:bg-sky-700 rounded-4xl border-0 cursor-pointer
+           transition delay-10 duration-50 ease-in hover:scale-105"
+          href={getRelativeLocaleUrl(lang, "portfolio")}>Portfolio</a
+        >
+        <a
+          class="w-26 py-2 px-5 bg-sky-500 hover:bg-sky-600 active:bg-sky-700 rounded-4xl border-0 cursor-pointer
+           transition delay-10 duration-50 ease-in hover:scale-105"
+          href={getRelativeLocaleUrl(lang, "blog")}>Blog</a
+        >
+      </div>
+      <div class="min-h-9">
+        <LanguageSelector client:only />
+      </div>
+    </side>
+
+    <side
+      id="content"
+      class="py-2 px-4 sm:py-8 sm:px-6 md:padding-x-12 overflow-y-auto"
+    >
+      <section>
+        <h2 class="text-2xl font-bold">{t("aboutMe")}</h2>
+        <p class="text-md text-black">
+          {t("aboutMe.detail")}
+        </p>
+      </section>
+      <div class="h-0.25 bg-black my-2"></div>
+
+      <section>
+        <h2 class="text-2xl font-bold">{t("latestPost")}</h2>
+        <PostOverview
+          slug={latestPost.slug.split("/").slice(1).join("/")}
+          title={latestPost.data.title}
+          description={latestPost.data.description}
+          date={latestPost.data.date}
+          category={latestPost.data.category}
+        />
+      </section>
+    </side>
+  </main>
+</BaseLayout>

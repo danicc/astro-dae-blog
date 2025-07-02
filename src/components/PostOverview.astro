@@ -1,18 +1,23 @@
 ---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
 interface Props {
-  id: string;
+  slug: string;
   title: string;
   date: Date;
   category: string;
   description: string;
 }
 
-const { id, title, date, category, description } = Astro.props;
-const postUrl = `/blog/posts/${id}`;
+const { slug, title, date, category, description } = Astro.props;
+import { getLangFromUrl } from "@i18n/utils";
+const lang = getLangFromUrl(Astro.url);
+
+const postUrl = `/blog/posts/${slug}`;
 ---
 
 <div class="py-2 px-4">
-  <a href={postUrl} class="text-sky-950 relative active:text-sky-700">
+  <a href={getRelativeLocaleUrl(lang, postUrl)} class="text-sky-950 relative active:text-sky-700">
     <span
       class="absolute
             text-4xl
@@ -32,6 +37,6 @@ const postUrl = `/blog/posts/${id}`;
   </p>
   <p class="text-black">
     {description}
-    <a href={postUrl} class="text-blue-400">Read more</a>
+    <a href={getRelativeLocaleUrl(lang, postUrl)} class="text-blue-400">Read more</a>
   </p>
 </div>

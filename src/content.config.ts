@@ -1,19 +1,27 @@
 import { defineCollection, z } from "astro:content";
-import { glob } from "astro/loaders";
-
+import { file } from "astro/loaders";
 
 const blog = defineCollection({
-    loader: glob({ pattern: "**/[^_]*.md", base: "src/data/blog"}),
+  type: "content",
+  schema: z.object({
+    date: z.coerce.date(),
+    title: z.string(),
+    description: z.string(),
+    category: z.string(),
+    tags: z.array(z.string()),
+    banner: z.string(),
+    locale: z.enum(["en", "es"]),
+  }),
+});
+
+const companies = defineCollection({
+    loader: file("src/content/companies.json"),
     schema: z.object({
-        id: z.string(),
-        date: z.coerce.date(),
-        title: z.string(),
-        description: z.string(),
-        category: z.string(),
-        tags: z.array(z.string()),
-        banner: z.string(),
-        locale: z.enum(['en', 'es']),
+        id: z.number(),
+        name: z.string(),
+        website: z.string(),
+        image: z.string(),
     })
 })
 
-export const collections = { blog }
+export const collections = { blog, companies };

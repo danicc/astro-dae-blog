@@ -1,0 +1,47 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+import Background from "@components/Background.astro";
+import Logo from "@components/Logo.astro";
+import Navigation from "@components/Navigation.astro";
+import LanguageSelector from "@components/LanguageSelector";
+
+interface Props {
+  pageTitle: string;
+}
+
+const { pageTitle } = Astro.props;
+
+import { getLangFromUrl } from "@i18n/utils";
+const lang = getLangFromUrl(Astro.url);
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div class="h-full grid grid-rows-[auto_1fr] overflow-y-hidden">
+    <header class="flex flex-col items-center gap-4 p-2 relative z-0">
+      <Background />
+
+      <div class="w-full flex flex-col items-center relative">
+        <div class="flex flex-row items-center gap-2 mx-auto">
+          <a href={getRelativeLocaleUrl(lang, "/")} class="flex flex-row items-center gap-2">
+            <Logo inHeader={true} />
+            <h1 class="text-white text-3xl">Daniel Esquinazi</h1>
+          </a>
+        </div>
+        <div class="mt-2 md:absolute md:top-0 md:right-0 md:mt-0">
+          <LanguageSelector client:only />
+        </div>
+      </div>
+
+      <Navigation />
+    </header>
+
+    <main
+      class="pt-2 pb-2 px-4 overflow-y-auto w-full md:w-2/3 max-w-200 mx-auto"
+    >
+      <slot />
+    </main>
+  </div>
+</BaseLayout>

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Integra Media",
+    "website": "https://integramedia.com.ar/",
+    "image": "integra.jpeg"
+  },
+  {
+    "id": 2,
+    "name": "Kimero | Cumbre",
+    "website": "https://www.linkedin.com/company/cumbre-tech",
+    "image": "kimero.jpeg"
+  },
+  {
+    "id": 3,
+    "name": "Shogun",
+    "website": "https://www.linkedin.com/company/shogun/",
+    "image": "shogun.jpeg"
+  },
+  {
+    "id": 4,
+    "name": "Leniolabs",
+    "website": "https://www.leniolabs.com/",
+    "image": "leniolabs.jpeg"
+  },
+  {
+    "id": 5,
+    "name": "Santex",
+    "website": "https://santexgroup.com/es/",
+    "image": "santex.jpeg"
+  }
+]

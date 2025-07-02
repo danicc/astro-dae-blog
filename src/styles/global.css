@@ -1,9 +1,12 @@
 @import "tailwindcss";
 @plugin '@tailwindcss/typography';
 
-html,
-body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
+base {
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: #f8fafc; /* subtle light background */
+  }
 }
