@@ -2,27 +2,32 @@
 import { Image, getImage } from "astro:assets";
 
 interface Props {
-    name: string;
-    image: string;
-    website: string;
+  name: string;
+  image: string;
+  website: string;
 }
 
-const { name = 'company', image, website } = Astro.props;
+const { name = "company", image, website } = Astro.props;
 
-const images = import.meta.glob('/src/assets/images/companies/*.jpeg');
+const images = import.meta.glob("/src/assets/images/companies/*.jpeg");
 
 if (!images[`/src/assets/images/companies/${image}`]) {
   throw new Error(`Image not found: ${image}`);
 }
 
-const optimizedImage = await getImage({ src: images[`/src/assets/images/companies/${image}`](), format: 'jpeg' });
+const imageImport = (await images[
+  `/src/assets/images/companies/${image}`
+]()) as any;
+const optimizedImage = await getImage({
+  src: imageImport.default,
+  format: "jpeg",
+});
 ---
 
-<a href={website} target="_blank" class="inline-block w-26 h-26 sm:w-32 sm:h-32 shadow-lg hover:shadow-xl active:shadow-xl focus:shadow-xl">
-  <Image
-    src={optimizedImage.src}
-    alt={name}
-    width={120}
-    height={120}
-  />
+<a
+  href={website}
+  target="_blank"
+  class="inline-block w-26 h-26 sm:w-32 sm:h-32 shadow-lg hover:shadow-xl active:shadow-xl focus:shadow-xl"
+>
+  <Image src={optimizedImage.src} alt={name} width={120} height={120} />
 </a>

@@ -1,7 +1,7 @@
 ---
-import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getRelativeLocaleUrl } from "astro:i18n";
 
-import { getLangFromUrl, defaultLang } from '@i18n/utils';
+import { getLangFromUrl, defaultLang } from "@i18n/utils";
 const { pathname } = Astro.url;
 const lang = getLangFromUrl(Astro.url);
 ---
@@ -10,17 +10,18 @@ const lang = getLangFromUrl(Astro.url);
   <ul class="flex flex-row gap-4">
     <li
       class:list={[
-        pathname.startsWith(`/${lang}/portfolio`) && "border-b-4 border-blue-500",
+        pathname.startsWith(`/${lang}/portfolio`) &&
+          "border-b-4 border-blue-500",
       ]}
     >
-      <a href={getRelativeLocaleUrl(lang, 'portfolio')}>Portfolio</a>
+      <a href={getRelativeLocaleUrl(lang, "portfolio")}>Portfolio</a>
     </li>
     <li
       class:list={[
         pathname.startsWith(`/${lang}/blog`) && "border-b-4 border-blue-500",
       ]}
     >
-      <a href={getRelativeLocaleUrl(lang, 'blog')}>Blog</a>
+      <a href={getRelativeLocaleUrl(lang, "blog")}>Blog</a>
     </li>
   </ul>
 </nav>

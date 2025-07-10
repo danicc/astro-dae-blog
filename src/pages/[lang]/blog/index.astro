@@ -9,7 +9,9 @@ import { ui } from "@i18n/ui";
 import { languages } from "@i18n/utils";
 
 const lang = Astro.params.lang as keyof typeof ui;
-const posts = (await getCollection("blog")).filter((post) => post.data.locale === lang);
+const posts = (await getCollection("blog")).filter(
+  (post) => post.data.locale === lang,
+);
 
 const pageTitle = "Blog";
 
@@ -21,12 +23,12 @@ export function getStaticPaths() {
 ---
 
 <MainLayout pageTitle={pageTitle}>
-  <ul class="flex flex-col gap-5">
+  <ul class="flex flex-col gap-5 max-w-250">
     {
       posts.map(({ data, slug }) => (
         <li>
           <PostOverview
-            slug={slug.split('/').slice(1).join('/')}
+            slug={slug.split("/").slice(1).join("/")}
             title={data.title}
             description={data.description}
             date={data.date}

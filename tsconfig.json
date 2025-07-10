@@ -22,6 +22,9 @@
       "@images/*": [
         "src/images/*"
       ],
+      "@assets/*": [
+        "src/assets/*"
+      ],
       "@i18n/*": [
         "src/i18n/*"
       ],

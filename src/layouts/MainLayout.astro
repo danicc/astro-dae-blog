@@ -4,7 +4,7 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import BaseLayout from "@layouts/BaseLayout.astro";
 
 import Background from "@components/Background.astro";
-import Logo from "@components/Logo.astro";
+import Logo from "@assets/logo.svg";
 import Navigation from "@components/Navigation.astro";
 import LanguageSelector from "@components/LanguageSelector";
 
@@ -25,8 +25,11 @@ const lang = getLangFromUrl(Astro.url);
 
       <div class="w-full flex flex-col items-center relative">
         <div class="flex flex-row items-center gap-2 mx-auto">
-          <a href={getRelativeLocaleUrl(lang, "/")} class="flex flex-row items-center gap-2">
-            <Logo inHeader={true} />
+          <a
+            href={getRelativeLocaleUrl(lang, "/")}
+            class="flex flex-row items-center gap-2"
+          >
+            <Logo class="w-12" />
             <h1 class="text-white text-3xl">Daniel Esquinazi</h1>
           </a>
         </div>
@@ -39,7 +42,7 @@ const lang = getLangFromUrl(Astro.url);
     </header>
 
     <main
-      class="pt-2 pb-2 px-4 overflow-y-auto w-full md:w-2/3 max-w-200 mx-auto"
+      class="px-4 py-5 overflow-y-auto w-full h-full flex flex-1 flex-col items-center"
     >
       <slot />
     </main>
