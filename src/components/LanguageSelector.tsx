@@ -1,6 +1,6 @@
+import { useState, useEffect } from "react";
 import {
   getLangFromUrl,
-  getRoutePathFromUrl,
   languages,
 } from "@i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
@@ -9,11 +9,22 @@ import { navigate } from "astro:transitions/client";
 export default function LanguageSelector() {
   const isClient = typeof window !== "undefined";
   const currentURL = isClient ? new URL(window.location.href) : null;
-  const currentLanguage = currentURL ? getLangFromUrl(currentURL) : "en"; // Default to 'en' on server
+  const initialLanguage = currentURL ? getLangFromUrl(currentURL) : "en";
+  const [selectedLanguage, setSelectedLanguage] = useState(initialLanguage);
+
+  useEffect(() => {
+    if (isClient) {
+      const newCurrentURL = new URL(window.location.href);
+      const newLang = getLangFromUrl(newCurrentURL);
+      if (newLang !== selectedLanguage) {
+        setSelectedLanguage(newLang);
+      }
+    }
+  }, [isClient, selectedLanguage]);
 
   function handleLanguageChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const newLang = e.target.value;
-    if (currentURL && newLang !== currentLanguage) {
+    if (currentURL && newLang !== selectedLanguage) {
       let path = currentURL.pathname;
 
       // Remove base path if it exists
@@ -26,10 +37,10 @@ export default function LanguageSelector() {
         path = '/' + path;
       }
 
-      // Remove current language prefix
-      if (path.startsWith(`/${currentLanguage}/`)) {
-        path = path.substring(`/${currentLanguage}/`.length);
-      } else if (path === `/${currentLanguage}`) {
+      // Remove current language prefix (using selectedLanguage for consistency)
+      if (path.startsWith(`/${selectedLanguage}/`)) {
+        path = path.substring(`/${selectedLanguage}/`.length);
+      } else if (path === `/${selectedLanguage}`) {
         path = '';
       }
 
@@ -58,7 +69,7 @@ export default function LanguageSelector() {
         className="text-white"
         onChange={handleLanguageChange}
         disabled={!isClient} // Disable on server
-        defaultValue={currentLanguage}
+        value={selectedLanguage} // Use value instead of defaultValue
       >
         {Object.entries(languages).map(([key, label]) => (
           <option key={key} value={key}>
