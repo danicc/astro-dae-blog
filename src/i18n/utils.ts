@@ -8,45 +8,53 @@ export const languages = {
 export const defaultLang = "en";
 
 
-export function getPathWithoutLocaleFromUrl(url: URL){
-  const [,,path] = url.pathname.split('/')
+export function getPathWithoutLocaleFromUrl(url: URL) {
+  const [, , path] = url.pathname.split('/')
   return path ?? '/';
 }
 
-export function getRoutePathFromUrl(url: URL) {
-  const lang = getLangFromUrl(url);
+// Centraliza la normalización de rutas para quitar basePath y prefijo de idioma
+export function normalizePath(url: URL, langOverride?: string): string {
   let path = url.pathname;
+  const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // sin barra final
+  const lang = langOverride || getLangFromUrl(url);
 
-  // Remove the base path
-  if (import.meta.env.BASE_URL && path.startsWith(import.meta.env.BASE_URL)) {
-    path = path.substring(import.meta.env.BASE_URL.length);
+  // Quitar basePath si existe
+  if (base && base !== '' && path.startsWith(base)) {
+    path = path.substring(base.length);
+    if (!path.startsWith('/')) path = '/' + path;
   }
 
-  // Remove the language segment
+  // Quitar prefijo de idioma
   if (path.startsWith(`/${lang}/`)) {
     path = path.substring(`/${lang}/`.length);
-  } else if (path === `/${lang}`) { // For homepage like /en
+  } else if (path === `/${lang}`) {
     path = '';
   }
 
-  // Ensure it starts with a slash if not empty
+  // Normalizar barra inicial
   if (path && !path.startsWith('/')) {
     path = '/' + path;
-  } else if (!path) { // If it's empty, it means it's the root path
+  } else if (!path) {
     path = '/';
   }
 
   return path;
 }
 
+// Refactor: usa normalizePath
+export function getRoutePathFromUrl(url: URL) {
+  return normalizePath(url);
+}
+
 export function getLangFromUrl(url: URL) {
   let pathname = url.pathname;
-
-  // Remove base path if it exists
-  if (import.meta.env.BASE_URL && pathname.startsWith(import.meta.env.BASE_URL)) {
-    pathname = pathname.substring(import.meta.env.BASE_URL.length);
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  // Quitar basePath si existe
+  if (base && base !== '' && pathname.startsWith(base)) {
+    pathname = pathname.substring(base.length);
+    if (!pathname.startsWith('/')) pathname = '/' + pathname;
   }
-
   // Get the first segment after removing base path
   const [, lang] = pathname.split('/');
   if (lang in ui) return lang as keyof typeof ui;
@@ -88,8 +96,8 @@ export function getRouteFromUrl(url: URL): string | undefined {
     return route[path] !== undefined ? route[path] : undefined;
   }
 
-  const getKeyByValue = (obj: Record<string, string>, value: string): string | undefined  => {
-      return Object.keys(obj).find((key) => obj[key] === value);
+  const getKeyByValue = (obj: Record<string, string>, value: string): string | undefined => {
+    return Object.keys(obj).find((key) => obj[key] === value);
   }
 
   const reversedKey = getKeyByValue(routes[currentLang], path);
