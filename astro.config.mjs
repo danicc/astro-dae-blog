@@ -6,6 +6,8 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 
 export default defineConfig({
+  site: 'https://danicc.github.io/astro-dae-blog/',
+  base: '/astro-dae-blog',
   vite: {
     plugins: [tailwindcss()]
   },
