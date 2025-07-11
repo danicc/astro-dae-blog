@@ -17,6 +17,11 @@ export function getRoutePathFromUrl(url: URL) {
   const lang = getLangFromUrl(url);
   let path = url.pathname;
 
+  // Remove the base path
+  if (import.meta.env.BASE_URL && path.startsWith(import.meta.env.BASE_URL)) {
+    path = path.substring(import.meta.env.BASE_URL.length);
+  }
+
   // Remove the language segment
   if (path.startsWith(`/${lang}/`)) {
     path = path.substring(`/${lang}/`.length);
@@ -35,8 +40,15 @@ export function getRoutePathFromUrl(url: URL) {
 }
 
 export function getLangFromUrl(url: URL) {
+  let pathname = url.pathname;
+
+  // Remove base path if it exists
+  if (import.meta.env.BASE_URL && pathname.startsWith(import.meta.env.BASE_URL)) {
+    pathname = pathname.substring(import.meta.env.BASE_URL.length);
+  }
+
   // Get the first segment after removing base path
-  const [, lang] = url.pathname.split('/');
+  const [, lang] = pathname.split('/');
   if (lang in ui) return lang as keyof typeof ui;
   return defaultLang;
 }

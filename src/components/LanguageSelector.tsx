@@ -17,13 +17,28 @@ export default function LanguageSelector() {
     if (currentURL && newLang !== selectedLanguage) {
       let path = currentURL.pathname;
 
-      
+      // Remove base path if it exists
+      if (import.meta.env.BASE_URL && path.startsWith(import.meta.env.BASE_URL)) {
+        path = path.substring(import.meta.env.BASE_URL.length);
+      }
+
+      // Ensure path starts with a slash for consistent processing
+      if (!path.startsWith('/')) {
+        path = '/' + path;
+      }
 
       // Remove current language prefix (using currentLanguage from URL)
       if (path.startsWith(`/${currentLanguage}/`)) {
         path = path.substring(`/${currentLanguage}/`.length);
       } else if (path === `/${currentLanguage}`) {
         path = '';
+      }
+
+      // Ensure path starts with a slash if not empty, or is just '/' for root
+      if (path && !path.startsWith('/')) {
+        path = '/' + path;
+      } else if (!path) {
+        path = '/';
       }
 
       
