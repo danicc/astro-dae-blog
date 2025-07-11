@@ -15,15 +15,28 @@ export function getPathWithoutLocaleFromUrl(url: URL){
 
 export function getRoutePathFromUrl(url: URL) {
   const lang = getLangFromUrl(url);
-  let pathname = url.pathname.replace(import.meta.env.BASE_URL, '');
-  if (pathname.startsWith('/')) {
-    pathname = pathname.substring(1);
+  let path = url.pathname;
+
+  // Remove the base path
+  if (import.meta.env.BASE_URL && path.startsWith(import.meta.env.BASE_URL)) {
+    path = path.substring(import.meta.env.BASE_URL.length);
   }
-  const pathSegments = pathname.split('/').filter(segment => segment !== '');
-  if (pathSegments[0] === lang) {
-    pathSegments.shift();
+
+  // Remove the language segment
+  if (path.startsWith(`/${lang}/`)) {
+    path = path.substring(`/${lang}/`.length);
+  } else if (path === `/${lang}`) { // For homepage like /en
+    path = '';
   }
-  return '/' + pathSegments.join('/');
+
+  // Ensure it starts with a slash if not empty
+  if (path && !path.startsWith('/')) {
+    path = '/' + path;
+  } else if (!path) { // If it's empty, it means it's the root path
+    path = '/';
+  }
+
+  return path;
 }
 
 export function getLangFromUrl(url: URL) {
