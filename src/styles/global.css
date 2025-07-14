@@ -1,12 +1,12 @@
 @import "tailwindcss";
 @plugin '@tailwindcss/typography';
 
-
 html,
 body {
-  font-family:  "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
   margin: 0;
   width: 100dvw;
   height: 100dvh;
-  background: #f8fafc; /* subtle light background */
+  /* subtle light background */
+  background: #f8fafc;
 }

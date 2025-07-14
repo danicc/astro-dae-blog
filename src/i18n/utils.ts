@@ -1,4 +1,4 @@
-import { ui, routes } from './ui';
+import { routes,ui } from './ui';
 
 export const languages = {
   en: "EN",

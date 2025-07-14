@@ -1,12 +1,10 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
-
-import BaseLayout from "@layouts/BaseLayout.astro";
-
-import Background from "@components/Background.astro";
 import Logo from "@assets/logo.svg";
-import Navigation from "@components/Navigation.astro";
+import Background from "@components/Background.astro";
 import LanguageSelector from "@components/LanguageSelector";
+import Navigation from "@components/Navigation.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
 
 interface Props {
   pageTitle: string;
@@ -34,7 +32,7 @@ const lang = getLangFromUrl(Astro.url);
           </a>
         </div>
         <div class="mt-2 md:absolute md:top-0 md:right-0 md:mt-0">
-          <LanguageSelector client:only />
+          <LanguageSelector client:only="react" />
         </div>
       </div>
 

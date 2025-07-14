@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   getLangFromUrl,
   languages,
@@ -6,6 +5,7 @@ import {
 } from "@i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { navigate } from "astro:transitions/client";
+import { useState } from "react";
 
 export default function LanguageSelector() {
   const isClient = typeof window !== "undefined";

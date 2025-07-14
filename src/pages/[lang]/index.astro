@@ -1,18 +1,13 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
-import { getCollection } from "astro:content";
-
-import BaseLayout from "@layouts/BaseLayout.astro";
-
-import Background from "@components/Background.astro";
 import Logo from "@assets/logo.svg";
-
-import PostOverview from "@components/PostOverview.astro";
+import Background from "@components/Background.astro";
 import LanguageSelector from "@components/LanguageSelector";
-
-import { useTranslations } from "@i18n/utils";
+import PostOverview from "@components/PostOverview.astro";
 import type { ui } from "@i18n/ui";
-
+import { useTranslations } from "@i18n/utils";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import { getStaticPathsLang } from "src/utils/get-static-paths-lang";
 
 export const getStaticPaths = getStaticPathsLang;
@@ -63,7 +58,7 @@ const latestPost = posts
         >
       </div>
       <div class="min-h-9">
-        <LanguageSelector client:only />
+        <LanguageSelector client:only="react" />
       </div>
     </side>
 

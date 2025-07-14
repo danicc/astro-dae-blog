@@ -1,13 +1,10 @@
 ---
-import MainLayout from "@layouts/MainLayout.astro";
-
 import CompanyCard from "@components/CompanyCard.astro";
 import GitHubIcon from "@components/icons/GitHubIcon.astro";
 import LinkedinIcon from "@components/icons/LinkedinIcon.astro";
-
-import { useTranslations } from "@i18n/utils";
 import { ui } from "@i18n/ui";
-
+import { useTranslations } from "@i18n/utils";
+import MainLayout from "@layouts/MainLayout.astro";
 import { getCollection } from "astro:content";
 import { getStaticPathsLang } from "src/utils/get-static-paths-lang";
 

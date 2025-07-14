@@ -1,12 +1,10 @@
 ---
+import MainLayout from "@layouts/MainLayout.astro";
 import {
-  render,
   type InferEntrySchema,
+  render,
   type RenderedContent,
 } from "astro:content";
-
-import MainLayout from "@layouts/MainLayout.astro";
-
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
