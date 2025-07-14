@@ -33,19 +33,19 @@ const latestPost = posts
       class="flex flex-col justify-center items-center text-center text-white py-4 relative"
     >
       <Background />
-      <Logo class="w-30 md:w-44" />
+      <Logo class="w-26 md:w-44" />
 
       <div
-        class="bg-black/30 p-3 rounded-lg flex flex-col justify-center items-center gap-2 mt-4"
+        class="bg-black/30 p-3 rounded-lg flex flex-col justify-center items-center gap-2 mt-2 sm:mt-4"
       >
-        <h1 class="text-3xl sm:text-4xl font-bold">
+        <h1 class="text-2xl sm:text-3xl font-bold">
           {t("home.hi")}<br />Daniel Alberto Esquinazi
         </h1>
-        <p class="text-lg max-w-80 sm:max-90 mx-auto">
+        <p class="text-md sm:text-lg max-w-80 sm:max-90 mx-auto">
           {t("home.detail")}
         </p>
       </div>
-      <div class="flex items-center justify-center gap-5 my-4">
+      <div class="flex items-center justify-center gap-5 my-2 sm:my-4">
         <a
           class="w-26 py-2 px-5 bg-sky-500 hover:bg-sky-600 active:bg-sky-700 rounded-4xl border-0 cursor-pointer
            transition delay-10 duration-50 ease-in hover:scale-105"
@@ -57,14 +57,14 @@ const latestPost = posts
           href={getRelativeLocaleUrl(lang, "blog")}>Blog</a
         >
       </div>
-      <div class="min-h-9">
+      <div class="min-h-9 absolute md:static top-4 right-4">
         <LanguageSelector client:only="react" />
       </div>
     </side>
 
     <side
       id="content"
-      class="py-2 px-4 sm:py-8 sm:px-6 md:padding-x-12 overflow-y-auto"
+      class="py-2 px-4 sm:py-8 sm:px-6 md:padding-x-12 md:overflow-y-auto"
     >
       <section>
         <h2 class="text-2xl md:text-4xl font-bold">{t("aboutMe")}</h2>
