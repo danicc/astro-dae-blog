@@ -9,18 +9,16 @@ import { useTranslations } from "@i18n/utils";
 import { ui } from "@i18n/ui";
 
 import { getCollection } from "astro:content";
+import { getStaticPathsLang } from "src/utils/get-static-paths-lang";
 
-const lang = Astro.params.lang as keyof typeof ui;
+export const getStaticPaths = getStaticPathsLang;
+const { lang } = Astro.params as { lang: keyof typeof ui };
+
 const t = useTranslations(lang);
 
 const pageTitle = "Portfolio";
-const companies = await getCollection("companies", (data) => data);
 
-export function getStaticPaths() {
-  return Object.keys(ui).map((lang) => {
-    return { params: { lang } };
-  });
-}
+const companies = await getCollection("companies", (data) => data);
 ---
 
 <MainLayout pageTitle={pageTitle}>

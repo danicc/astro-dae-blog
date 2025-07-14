@@ -1,5 +1,4 @@
 ---
-import { languages } from "@i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { getCollection } from "astro:content";
 
@@ -12,9 +11,13 @@ import PostOverview from "@components/PostOverview.astro";
 import LanguageSelector from "@components/LanguageSelector";
 
 import { useTranslations } from "@i18n/utils";
-import { ui } from "@i18n/ui";
+import type { ui } from "@i18n/ui";
 
-const lang = Astro.params.lang as keyof typeof ui;
+import { getStaticPathsLang } from "src/utils/get-static-paths-lang";
+
+export const getStaticPaths = getStaticPathsLang;
+const { lang } = Astro.params as { lang: keyof typeof ui };
+
 const t = useTranslations(lang);
 
 const pageTitle = t("home");
@@ -23,12 +26,6 @@ const posts = await getCollection("blog");
 const latestPost = posts
   .filter((post) => post.data.locale === lang)
   .toSorted((postA, postB) => (postA.data.date > postB.data.date ? -1 : 1))[0];
-
-export function getStaticPaths() {
-  return Object.keys(languages).map((lang) => {
-    return { params: { lang } };
-  });
-}
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -76,7 +73,7 @@ export function getStaticPaths() {
     >
       <section>
         <h2 class="text-2xl md:text-4xl font-bold">{t("aboutMe")}</h2>
-        <p class="text-base md:text-xl" set:html={t("aboutMe.detail")}></p>
+        <p class="text-base md:text-xl" set:html={t("aboutMe.detail")} />
       </section>
       <div class="h-0.25 bg-black my-2"></div>
 

@@ -4,22 +4,18 @@ import { getCollection } from "astro:content";
 import MainLayout from "@layouts/MainLayout.astro";
 
 import PostOverview from "@components/PostOverview.astro";
+import type { ui } from "@i18n/ui";
 
-import { ui } from "@i18n/ui";
-import { languages } from "@i18n/utils";
+import { getStaticPathsLang } from "src/utils/get-static-paths-lang";
 
-const lang = Astro.params.lang as keyof typeof ui;
-const posts = (await getCollection("blog")).filter(
-  (post) => post.data.locale === lang,
-);
+export const getStaticPaths = getStaticPathsLang;
+const { lang } = Astro.params as { lang: keyof typeof ui };
 
 const pageTitle = "Blog";
 
-export function getStaticPaths() {
-  return Object.keys(languages).map((lang) => {
-    return { params: { lang } };
-  });
-}
+const posts = (await getCollection("blog")).filter(
+  (post) => post.data.locale === lang,
+);
 ---
 
 <MainLayout pageTitle={pageTitle}>
